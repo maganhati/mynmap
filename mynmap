@@ -1,0 +1,132 @@
+#!/usr/bin/env bash
+
+# Define colors
+RED='\e[31m'
+GREEN='\e[32m'
+YELLOW='\e[33m'
+CYAN='\e[36m'
+WHITE='\e[37m'
+RESET='\e[0m'
+GRAY='\033[0;37m'
+
+echo -e "\n${CYAN}███╗   ███╗██╗   ██╗███╗   ██╗███╗   ███╗ █████╗ ██████╗ 
+████╗ ████║╚██╗ ██╔╝████╗  ██║████╗ ████║██╔══██╗██╔══██╗
+██╔████╔██║ ╚████╔╝ ██╔██╗ ██║██╔████╔██║███████║██████╔╝
+██║╚██╔╝██║  ╚██╔╝  ██║╚██╗██║██║╚██╔╝██║██╔══██║██╔═══╝ 
+██║ ╚═╝ ██║   ██║   ██║ ╚████║██║ ╚═╝ ██║██║  ██║██║     
+╚═╝     ╚═╝   ╚═╝   ╚═╝  ╚═══╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝ ${RESET}Made by ${CYAN}Diego Becker${RESET}.\n"
+
+echo "THIS TOOL IS MADE ONLY FOR EDUCATIONAL AND RESEARCH PURPOUSES ONLY I DO NOT ASSUME
+ANY KIND OF RESPONSIBILITY FOR ANY IMPROPE USE OF THIS TOOL USE IT WITH GOOD SENSE."
+
+sleep 1
+
+echo -e "\n${CYAN}Enjoy${RESET}!\n"
+
+read -p "Target (IP or Domain): " alvo
+
+echo -e "\nSelect an option:\n"
+echo -e "${RED}[1]${RESET} nmap -sV"
+echo -e "${RED}[2]${RESET} nmap -A"
+echo -e "${YELLOW}[3]${RESET} nmap -n -A -Pn -sT -sC --script=vuln -g53 -D 192.168.0.1"
+echo -e "${YELLOW}[4]${RESET} nmap -n -A -Pn -sT -sC --script=vuln -g53 -f --mtu 24 -D 192.168.0.1"
+echo -e "${YELLOW}[5]${RESET} nmap -n -A -Pn -sT -sC --script=vuln -g53 -f --mtu 24 -D 192.168.0.1 -p 1-65535"
+echo -e "${YELLOW}[6]${RESET} nmap -n -A -Pn -sS -sC --script=vuln -g53 -f --mtu 24 -D 192.168.0.1"
+echo -e "${YELLOW}[7]${RESET} nmap -n -A -Pn -sS -sC --script=vuln -g53 -f --mtu 24 -D 192.168.0.1 -p 1-65535"
+echo -e "${CYAN}[8]${RESET} proxychains nmap -A -n -Pn -sS -sC --script=vuln -g53 -f --mtu 24"
+echo -e "${CYAN}[9]${RESET} proxychains nmap -A -n -Pn -sS -sC --script=vuln -g53 -f --mtu 24 -p 1-65535\n"
+read -p "Enter your choice (1-9): " option
+
+regex_ip="^([0-9]{1,3}\.){3}[0-9]{1,3}$"
+
+if [[ $alvo =~ $regex_ip ]]; then
+  cond_var=1
+else
+  regex_dominio="^(([a-zA-Z0-9](-?[a-zA-Z0-9])*)\.)+[a-zA-Z]{2,}$"
+  if [[ $alvo =~ $regex_dominio ]]; then
+    cond_var=2
+  else
+    cond_var=3
+  fi
+fi
+
+if [ "$cond_var" = "1" ]; then
+  ip_target="$alvo"
+elif [ "$cond_var" = "2" ]; then
+  echo -e "\n${GREEN}--->${RESET} Starting ${YELLOW}Tor Service${RESET}(Using tor-resolve for dns) - ${YELLOW}Root Needed${RESET}!"
+  sudo systemctl start tor
+  sleep 3
+  ip_target=$(tor-resolve "$alvo")
+  echo -e "${YELLOW}\n$alvo ${GREEN}---> ${RESET}$ip_target\n"
+elif [ "$cond_var" = "3" ]; then
+  echo -e "\nNot valid IP or Domain${YELLOW}!!!${RESET} Run mynmap again and type a valid one. "
+  exit
+fi
+
+date_var=$(date +%d%m%y%H%M)
+name_file="${alvo}_${date_var}"
+dir_var=$(pwd)
+
+# Verify option case
+case "$option" in
+1)
+  sudo nmap -sV $ip_target | tee "$name_file.txt"
+  echo -e "\nA file was saved on ---> ${dir_var}/${name_file}.txt"
+  batcat "$name_file.txt"
+  ;;
+
+2)
+  sudo nmap -sV $ip_target | tee "$name_file.txt"
+  echo -e "\nA file was saved on ---> ${dir_var}/${name_file}.txt"
+  batcat "$name_file.txt"
+  ;;
+
+3)
+  sudo nmap -n -A -Pn -sT -sC --script=vuln -g53 -D 192.168.0.1 $ip_target | tee "$name_file.txt"
+  echo -e "\nA file was saved on ---> ${dir_var}/${name_file}.txt"
+  batcat "$name_file.txt"
+  ;;
+
+4)
+  sudo nmap -n -A -Pn -sT -sC --script=vuln -g53 -f --mtu 24 -D 192.168.0.1 $ip_target | tee "$name_file.txt"
+  echo -e "\nA file was saved on ---> ${dir_var}/${name_file}.txt"
+  batcat "$name_file.txt"
+  ;;
+
+5)
+  sudo nmap -n -A -Pn -sT -sC --script=vuln -g53 -f --mtu 24 -D 192.168.0.1 -p 1-65535 $ip_target | tee "$name_file.txt"
+  echo -e "\nA file was saved on ---> ${dir_var}/${name_file}.txt"
+  batcat "$name_file.txt"
+  ;;
+
+6)
+  sudo nmap -n -A -Pn -sS -sC --script=vuln -g53 -f --mtu 24 -D 192.168.0.1 $ip_target | tee "$name_file.txt"
+  echo -e "\nA file was saved on ---> ${dir_var}/${name_file}.txt"
+  batcat "$name_file.txt"
+  ;;
+
+7)
+  sudo nmap -n -A -Pn -sS -sC --script=vuln -g53 -f --mtu 24 -D 192.168.0.1 -p 1-65535 $ip_target | tee "$name_file.txt"
+  echo -e "\nA file was saved on ---> ${dir_var}/${name_file}.txt"
+  batcat "$name_file.txt"
+  ;;
+
+8)
+  sudo proxychains nmap -A -n -Pn -sS -sC --script=vuln -g53 -f --mtu 24 $ip_target | tee "$name_file.txt"
+  echo -e "\nA file was saved on ---> ${dir_var}/${name_file}.txt"
+  batcat "$name_file.txt"
+  ;;
+
+9)
+  sudo proxychains nmap -A -n -Pn -sS -sC --script=vuln -g53 -f --mtu 24 -p 1-65535 $ip_target | tee "$name_file.txt"
+  echo -e "\nA file was saved on ---> ${dir_var}/${name_file}.txt"
+  batcat "$name_file.txt"
+  ;;
+*)
+  echo "Invalid Option! Run mynmap again and select a valid one"
+  ;;
+esac
+
+sudo systemctl stop tor
+
+exit
