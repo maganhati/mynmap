@@ -28,7 +28,7 @@
 
 3. **Run the script**:
    ```bash
-   ./mynmap
+   mynmap
    ```
 
 4. **Follow the prompts**: The script will ask you to enter the target (IP or domain) and choose a scanning option.
