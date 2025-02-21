@@ -87,55 +87,55 @@ dir_var=$(pwd)
 case "$option" in
 1)
   sudo nmap -sV $ip_target -T$time_sel | tee "$name_file.txt"
-  echo -e "\nA file was saved on ---> ${dir_var}/${name_file}.txt"
+  echo -e "\nA ${CYAN}file${RESET} was ${CYAN}saved ${RESET}on ${YELLOW}--->${RESET} ${dir_var}/${name_file}.txt"
   batcat "$name_file.txt"
   ;;
 
 2)
   sudo nmap -sV $ip_target -T$time_sel | tee "$name_file.txt"
-  echo -e "\nA file was saved on ---> ${dir_var}/${name_file}.txt"
+  echo -e "\nA ${CYAN}file${RESET} was ${CYAN}saved ${RESET}on ${YELLOW}--->${RESET} ${dir_var}/${name_file}.txt"
   batcat "$name_file.txt"
   ;;
 
 3)
   sudo nmap -n -A -Pn -sT -sC --script=vuln -g53 -D 192.168.0.1 $ip_target -T$time_sel | tee "$name_file.txt"
-  echo -e "\nA file was saved on ---> ${dir_var}/${name_file}.txt"
+  echo -e "\nA ${CYAN}file${RESET} was ${CYAN}saved ${RESET}on ${YELLOW}--->${RESET} ${dir_var}/${name_file}.txt"
   batcat "$name_file.txt"
   ;;
 
 4)
   sudo nmap -n -A -Pn -sT -sC --script=vuln -g53 -f --mtu 24 -D 192.168.0.1 $ip_target -T$time_sel | tee "$name_file.txt"
-  echo -e "\nA file was saved on ---> ${dir_var}/${name_file}.txt"
+  echo -e "\nA ${CYAN}file${RESET} was ${CYAN}saved ${RESET}on ${YELLOW}--->${RESET} ${dir_var}/${name_file}.txt"
   batcat "$name_file.txt"
   ;;
 
 5)
   sudo nmap -n -A -Pn -sT -sC --script=vuln -g53 -f --mtu 24 -D 192.168.0.1 -p 1-65535 $ip_target -T$time_sel | tee "$name_file.txt"
-  echo -e "\nA file was saved on ---> ${dir_var}/${name_file}.txt"
+  echo -e "\nA ${CYAN}file${RESET} was ${CYAN}saved ${RESET}on ${YELLOW}--->${RESET} ${dir_var}/${name_file}.txt"
   batcat "$name_file.txt"
   ;;
 
 6)
   sudo nmap -n -A -Pn -sS -sC --script=vuln -g53 -f --mtu 24 -D 192.168.0.1 $ip_target -T$time_sel | tee "$name_file.txt"
-  echo -e "\nA file was saved on ---> ${dir_var}/${name_file}.txt"
+  echo -e "\nA ${CYAN}file${RESET} was ${CYAN}saved ${RESET}on ${YELLOW}--->${RESET} ${dir_var}/${name_file}.txt"
   batcat "$name_file.txt"
   ;;
 
 7)
   sudo nmap -n -A -Pn -sS -sC --script=vuln -g53 -f --mtu 24 -D 192.168.0.1 -p 1-65535 $ip_target -T$time_sel | tee "$name_file.txt"
-  echo -e "\nA file was saved on ---> ${dir_var}/${name_file}.txt"
+  echo -e "\nA ${CYAN}file${RESET} was ${CYAN}saved ${RESET}on ${YELLOW}--->${RESET} ${dir_var}/${name_file}.txt"
   batcat "$name_file.txt"
   ;;
 
 8)
   sudo proxychains nmap -A -n -Pn -sS -sC --script=vuln -g53 -f --mtu 24 $ip_target -T$time_sel | tee "$name_file.txt"
-  echo -e "\nA file was saved on ---> ${dir_var}/${name_file}.txt"
+  echo -e "\nA ${CYAN}file${RESET} was ${CYAN}saved ${RESET}on ${YELLOW}--->${RESET} ${dir_var}/${name_file}.txt"
   batcat "$name_file.txt"
   ;;
 
 9)
   sudo proxychains nmap -A -n -Pn -sS -sC --script=vuln -g53 -f --mtu 24 -p 1-65535 $ip_target -T$time_sel | tee "$name_file.txt"
-  echo -e "\nA file was saved on ---> ${dir_var}/${name_file}.txt"
+  echo -e "\nA ${CYAN}file${RESET} was ${CYAN}saved ${RESET}on ${YELLOW}--->${RESET} ${dir_var}/${name_file}.txt"
   batcat "$name_file.txt"
   ;;
 *)
