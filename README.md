@@ -4,14 +4,14 @@
 
 ## Features
 
+- **Regex-based Input Validation**: Uses regex to determine if the user input is an IP address or a domain.
+- **DNS Resolution via Tor**: Resolves domain names using `tor-resolve` for enhanced privacy.
 - **Version Detection**: Identifies versions of services running on open ports.
 - **Comprehensive Scanning**: Includes OS detection, version detection, script scanning, and traceroute.
 - **Vulnerability Scripts**: Utilizes `nmap` scripts to identify known vulnerabilities.
 - **Evasion Techniques**: Includes options to avoid detection by defense systems.
-- **Proxychains Support**: Allows scans through proxies to conceal the origin.
 - **Full Port Scanning**: Checks all ports from 1 to 65535.
-- **Regex-based Input Validation**: Uses regex to determine if the user input is an IP address or a domain.
-- **DNS Resolution via Tor**: Resolves domain names using `tor-resolve` for enhanced privacy.
+- **Proxychains Support**: Allows scans through proxies to conceal the origin.
 
 ## How to Use
 
@@ -21,19 +21,22 @@
    cd mynmap
    ```
 
-2. **Make the script executable**:
+2. **Make the install.sh executable**:
    ```bash
-   chmod +x mynmap
+   chmod +x install.sh 
    ```
 
-3. **Run the script**:
+3. **Run install.sh**:
    ```bash
-   mynmap
+   ./install.sh
    ```
 
-4. **Follow the prompts**: The script will ask you to enter the target (IP or domain) and choose a scanning option.
+4. **Usage:
+  ```bash
+  mynmap
+  ```
 
-## Scanning Options
+## Scanning Options:
 
 - **[1]** `nmap -sV`: Version detection.
 - **[2]** `nmap -A`: Comprehensive scan.
