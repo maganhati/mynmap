@@ -144,5 +144,7 @@ case "$option" in
 esac
 
 sudo systemctl stop tor
+echo "tor service stoped."
+echo "exiting mynmap...see you later!"
 
 exit
