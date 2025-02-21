@@ -59,5 +59,4 @@ sudo ln -s $(pwd)/mynmap /usr/local/bin/mynmap
 
 echo "All dependencies have been installed successfully."
 
-sudo chmod 750 ./mynmap
-
+sudo chmod 770 ./mynmap
