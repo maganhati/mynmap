@@ -43,8 +43,8 @@ sudo apt install -y bat
 
 # Verifica se o batcat está disponível e cria um link simbólico se necessário
 echo "Checking for batcat..."
-if ! command -v batcat &> /dev/null; then
-  if command -v bat &> /dev/null; then
+if ! command -v batcat &>/dev/null; then
+  if command -v bat &>/dev/null; then
     echo "Creating symlink for batcat..."
     sudo ln -s $(which bat) /usr/local/bin/batcat
   else
@@ -58,3 +58,6 @@ echo "Linking mynmap to /usr/local/bin..."
 sudo ln -s $(pwd)/mynmap /usr/local/bin/mynmap
 
 echo "All dependencies have been installed successfully."
+
+sudo chmod 750 ./mynmap
+
