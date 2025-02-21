@@ -32,9 +32,9 @@
    ```
 
 4. **Usage:
-  ```bash
-  mynmap
-  ```
+   ```bash
+   mynmap
+   ```
 
 ## Scanning Options:
 
