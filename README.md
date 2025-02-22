@@ -17,8 +17,7 @@
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/your-username/mynmap.git
-   cd mynmap
+   git clone https://github.com/your-username/mynmap.git && cd mynmap
    ```
 
 2. **Make the install.sh executable**:
