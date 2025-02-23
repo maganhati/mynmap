@@ -9,6 +9,123 @@ WHITE='\e[37m'
 RESET='\e[0m'
 GRAY='\033[0;37m'
 
+show_help() {
+  echo -e "\n${CYAN}Usage:${RESET} $(basename "$0") [OPTIONS]"
+  echo -e "\nOptions:"
+  echo -e "  ${YELLOW}--help${RESET}      Show this help message and exit."
+  echo -e "\nThis tool is designed to perform various types of ${CYAN}Nmap${RESET} scans on a target (IP or domain)."
+  echo -e "After entering the target, you will select a scan type and optional settings."
+
+  echo -e "\n${CYAN}Scan Options:${RESET}"
+  echo -e "${RED}[1]${RESET}  ${CYAN}nmap -sV${RESET}            → Performs a basic service/version detection scan."
+  echo -e "                           This identifies open ports and the services running on them.\n"
+  echo -e "${RED}[2]${RESET}  ${CYAN}nmap -A${RESET}             → Enables aggressive mode, including OS detection, script scanning,"
+  echo -e "                           traceroute, and version detection.\n"
+  echo -e "${RED}[3]${RESET}  ${CYAN}nmap -A -p 1-65535${RESET}  → Performs an aggressive scan, but scans ${CYAN}all${RESET} 65,535 TCP ports."
+  echo -e "                           Useful when looking for non-standard services running on unusual ports.\n"
+
+  echo -e "${YELLOW}[4]${RESET}  ${CYAN}nmap -n -A -Pn -sT -sC --script=vuln -g53 -D 192.168.0.1${RESET}"
+  echo -e "                         → Performs a TCP-based scan (-sT) without DNS resolution (-n), with OS detection (-A),"
+  echo -e "                           and runs vulnerability scripts (--script=vuln)."
+  echo -e "                           Uses decoys (-D) to obscure the attack source and sets a specific source port (-g53).\n"
+
+  echo -e "${YELLOW}[5]${RESET}  ${CYAN}nmap -n -A -Pn -sT -sC --script=vuln -g53 -f --mtu 24 -D 192.168.0.1${RESET}"
+  echo -e "                         → Similar to option 4, but adds fragmentation (-f) and sets an MTU size (24) to evade detection.\n"
+
+  echo -e "${YELLOW}[6]${RESET}  ${CYAN}nmap -n -A -Pn -sT -sC --script=vuln -g53 -f --mtu 24 -D 192.168.0.1 -p 1-65535${RESET}"
+  echo -e "                         → Like option 5, but scans ${CYAN}all${RESET} ports, increasing the likelihood of finding vulnerabilities.\n"
+
+  echo -e "${YELLOW}[7]${RESET}  ${CYAN}nmap -n -A -Pn -sS -sC --script=vuln -g53 -f --mtu 24 -D 192.168.0.1${RESET}"
+  echo -e "                         → Uses SYN scan (-sS), which is stealthier than TCP scan (-sT), reducing detection chances.\n"
+
+  echo -e "${YELLOW}[8]${RESET}  ${CYAN}nmap -n -A -Pn -sS -sC --script=vuln -g53 -f --mtu 24 -D 192.168.0.1 -p 1-65535${RESET}"
+  echo -e "                         → Like option 7, but scans ${CYAN}all${RESET} ports, improving detection of hidden services.\n"
+
+  echo -e "${GREEN}[9]${RESET}  ${CYAN}proxychains nmap -A -n -Pn -sS -sC --script=vuln -g53 -f --mtu 24${RESET}"
+  echo -e "                         → Uses ProxyChains to route traffic through an anonymity network (Tor or other proxies),"
+  echo -e "                           making it harder to trace back the scan to the original source.\n"
+
+  echo -e "${GREEN}[0]${RESET}  ${CYAN}proxychains nmap -A -n -Pn -sS -sC --script=vuln -g53 -f --mtu 24 -p 1-65535${RESET}"
+  echo -e "                         → Like option 9, but scans ${CYAN}all${RESET} ports. This is a highly stealthy and thorough scan.\n"
+
+  echo -e "${CYAN}Timing Options:${RESET}\n"
+  echo -e "T0  → ${CYAN}Paranoid${RESET}: Extremely slow and stealthy (avoids detection but takes a long time)."
+  echo -e "T1  → ${CYAN}Sneaky${RESET}: Slightly faster but still very slow and stealthy."
+  echo -e "T2  → ${GREEN}Polite${RESET}: Slower than normal, reduces network congestion."
+  echo -e "T3  → ${GREEN}Normal${RESET}: Default speed."
+  echo -e "T4  → ${YELLOW}Aggressive${RESET}: Faster but noisier (may trigger IDS/IPS detection)."
+  echo -e "T5  → ${RED}Insane${RESET}: Very fast, likely to be detected but useful for quick scans."
+
+  echo -e "\n${CYAN}Example usage:${RESET}"
+  echo -e "./$(basename "$0")          → Run the script interactively."
+  echo -e "./$(basename "$0") --help   → Show this help message.\n"
+}
+
+show_help_por() {
+  echo -e "\n${CYAN}Uso:${RESET} $(basename "$0") [OPÇÕES]"
+  echo -e "\nOpções:"
+  echo -e "  ${YELLOW}--help${RESET}      Exibe esta mensagem de ajuda e sai."
+  echo -e "\nEsta ferramenta executa diferentes tipos de varreduras com o ${CYAN}Nmap${RESET} em um alvo (IP ou domínio)."
+  echo -e "Após inserir o alvo, você selecionará um tipo de varredura e configurações opcionais."
+
+  echo -e "\n${CYAN}Opções de Varredura:${RESET}"
+  echo -e "${RED}[1]${RESET}  ${CYAN}nmap -sV${RESET}            → Executa uma varredura básica para detectar serviços/versões."
+  echo -e "                           Identifica portas abertas e os serviços em execução.\n"
+  echo -e "${RED}[2]${RESET}  ${CYAN}nmap -A${RESET}             → Habilita o modo agressivo, incluindo detecção de sistema operacional,"
+  echo -e "                           execução de scripts, rastreamento de rota (traceroute) e detecção de versões.\n"
+  echo -e "${RED}[3]${RESET}  ${CYAN}nmap -A -p 1-65535${RESET}  → Executa uma varredura agressiva, mas analisando ${CYAN}todas${RESET} as 65.535 portas TCP."
+  echo -e "                           Útil para encontrar serviços rodando em portas incomuns.\n"
+
+  echo -e "${YELLOW}[4]${RESET}  ${CYAN}nmap -n -A -Pn -sT -sC --script=vuln -g53 -D 192.168.0.1${RESET}"
+  echo -e "                         → Executa uma varredura baseada em TCP (-sT) sem resolução de DNS (-n), com detecção de SO (-A),"
+  echo -e "                           e executa scripts de vulnerabilidade (--script=vuln)."
+  echo -e "                           Usa decoys (-D) para mascarar a origem do ataque e define uma porta de origem específica (-g53).\n"
+
+  echo -e "${YELLOW}[5]${RESET}  ${CYAN}nmap -n -A -Pn -sT -sC --script=vuln -g53 -f --mtu 24 -D 192.168.0.1${RESET}"
+  echo -e "                         → Semelhante à opção 4, mas adiciona fragmentação (-f) e define um tamanho de MTU (24) para evitar detecção.\n"
+
+  echo -e "${YELLOW}[6]${RESET}  ${CYAN}nmap -n -A -Pn -sT -sC --script=vuln -g53 -f --mtu 24 -D 192.168.0.1 -p 1-65535${RESET}"
+  echo -e "                         → Igual à opção 5, mas escaneia ${CYAN}todas${RESET} as portas, aumentando a chance de encontrar vulnerabilidades.\n"
+
+  echo -e "${YELLOW}[7]${RESET}  ${CYAN}nmap -n -A -Pn -sS -sC --script=vuln -g53 -f --mtu 24 -D 192.168.0.1${RESET}"
+  echo -e "                         → Usa uma varredura SYN (-sS), que é mais discreta do que a varredura TCP (-sT), reduzindo a detecção.\n"
+
+  echo -e "${YELLOW}[8]${RESET}  ${CYAN}nmap -n -A -Pn -sS -sC --script=vuln -g53 -f --mtu 24 -D 192.168.0.1 -p 1-65535${RESET}"
+  echo -e "                         → Igual à opção 7, mas escaneia ${CYAN}todas${RESET} as portas, aumentando a detecção de serviços ocultos.\n"
+
+  echo -e "${GREEN}[9]${RESET}  ${CYAN}proxychains nmap -A -n -Pn -sS -sC --script=vuln -g53 -f --mtu 24${RESET}"
+  echo -e "                         → Usa o ProxyChains para encaminhar o tráfego por uma rede anônima (Tor ou outros proxies),"
+  echo -e "                           dificultando o rastreamento da origem do escaneamento.\n"
+
+  echo -e "${GREEN}[0]${RESET}  ${CYAN}proxychains nmap -A -n -Pn -sS -sC --script=vuln -g53 -f --mtu 24 -p 1-65535${RESET}"
+  echo -e "                         → Igual à opção 9, mas escaneia ${CYAN}todas${RESET} as portas. Essa é uma varredura altamente discreta e completa.\n"
+
+  echo -e "${CYAN}Opções de Tempo:${RESET}\n"
+  echo -e "T0  → ${CYAN}Paranoico${RESET}: Extremamente lento e discreto (evita detecção, mas demora muito)."
+  echo -e "T1  → ${CYAN}Furtivo${RESET}: Um pouco mais rápido, mas ainda muito lento e discreto."
+  echo -e "T2  → ${GREEN}Educado${RESET}: Mais lento que o normal, reduz a sobrecarga na rede."
+  echo -e "T3  → ${GREEN}Normal${RESET}: Velocidade padrão."
+  echo -e "T4  → ${YELLOW}Agressivo${RESET}: Mais rápido, mas pode ser detectado por sistemas de segurança."
+  echo -e "T5  → ${RED}Insano${RESET}: Muito rápido, altamente detectável, mas útil para escaneamentos rápidos."
+
+  echo -e "\n${CYAN}Exemplo de uso:${RESET}"
+  echo -e "./$(basename "$0")          → Executa o script de forma interativa."
+  echo -e "./$(basename "$0") --help   → Exibe esta mensagem de ajuda.\n"
+}
+
+#Check for --help argument
+if [[ "$1" == "--help" ]]; then
+  read -p "1-English 2-Português: " lingua
+  if [[ "$lingua" == 1 ]]; then
+    show_help
+  elif [[ "$lingua" == 2 ]]; then
+    show_help_por
+  else
+    echo "Invalid option."
+  fi
+  exit
+fi
+
 echo -e "\n${CYAN}███╗   ███╗██╗   ██╗███╗   ██╗███╗   ███╗ █████╗ ██████╗ 
 ████╗ ████║╚██╗ ██╔╝████╗  ██║████╗ ████║██╔══██╗██╔══██╗
 ██╔████╔██║ ╚████╔╝ ██╔██╗ ██║██╔████╔██║███████║██████╔╝
@@ -74,6 +191,7 @@ if [ "$cond_var" = "1" ]; then
 elif [ "$cond_var" = "2" ]; then
   echo -e "\n${GREEN}--->${RESET} Starting ${YELLOW}Tor Service${RESET}(Using tor-resolve for dns) - ${YELLOW}Root Needed${RESET}!"
   sudo systemctl start tor
+  echo "wait..."
   sleep 3
   ip_target=$(tor-resolve "$alvo")
   echo -e "${YELLOW}\n$alvo ${GREEN}---> ${CYAN}$ip_target${RESET}\n"
