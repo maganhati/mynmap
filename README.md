@@ -1,5 +1,7 @@
 # mynmap
 
+![mynmap](https://github.com/user-attachments/assets/bc64788d-c370-4018-a7a0-4a9b8c2f2429)
+
 `mynmap` is a Bash script designed to streamline network scanning using `nmap`, a powerful tool for security analysis and penetration testing. This script offers various scanning options, including version detection, comprehensive scanning, vulnerability scripts, and evasion techniques to avoid detection.
 
 ## Features
@@ -17,8 +19,7 @@
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/your-username/mynmap.git
-   cd mynmap
+   git clone https://github.com/MyCyb3r/mynmap.git && cd mynmap
    ```
 
 2. **Make the install.sh executable**:
