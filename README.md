@@ -32,9 +32,14 @@
    ./install.sh
    ```
 
-4. **Usage:
+4. **Usage**:
    ```bash
    mynmap
+   ```
+
+5. **For hints**:
+   ```bash
+   mynmap --help
    ```
 
 ## Scanning Options:
