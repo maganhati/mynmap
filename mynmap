@@ -173,7 +173,8 @@ else
   exit 1
 fi
 
-regex_ip="^([0-9]{1,3}\.){3}[0-9]{1,3}$"
+# Use regex --> ip or domain
+regex_ip="^([0-9]{1,3}\.){3}[0-9]{1,3}([-/][0-9]{1,2})?( ([0-9]{1,3}\.){3}[0-9]{1,3}([-/][0-9]{1,2})?)*$"
 
 if [[ $alvo =~ $regex_ip ]]; then
   cond_var=1
@@ -201,7 +202,8 @@ elif [ "$cond_var" = "3" ]; then
 fi
 
 date_var=$(date +%d%m%y%H%M)
-name_file="${alvo}_${date_var}"
+nametr=$(echo "$alvo" | tr '/' '-')
+name_file="${nametr}_${date_var}"
 dir_var=$(pwd)
 
 # Verify option case
