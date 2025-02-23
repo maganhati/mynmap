@@ -57,8 +57,8 @@ show_help() {
   echo -e "T5  → ${RED}Insane${RESET}: Very fast, likely to be detected but useful for quick scans."
 
   echo -e "\n${CYAN}Example usage:${RESET}"
-  echo -e "./$(basename "$0")          → Run the script interactively."
-  echo -e "./$(basename "$0") --help   → Show this help message.\n"
+  echo -e "$(basename "$0")          → Run the script interactively."
+  echo -e "$(basename "$0") --help   → Show this help message.\n"
 }
 
 show_help_por() {
@@ -109,8 +109,8 @@ show_help_por() {
   echo -e "T5  → ${RED}Insano${RESET}: Muito rápido, altamente detectável, mas útil para escaneamentos rápidos."
 
   echo -e "\n${CYAN}Exemplo de uso:${RESET}"
-  echo -e "./$(basename "$0")          → Executa o script de forma interativa."
-  echo -e "./$(basename "$0") --help   → Exibe esta mensagem de ajuda.\n"
+  echo -e "$(basename "$0")          → Executa o script de forma interativa."
+  echo -e "$(basename "$0") --help   → Exibe esta mensagem de ajuda.\n"
 }
 
 #Check for --help argument
