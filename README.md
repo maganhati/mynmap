@@ -21,6 +21,10 @@ https://github.com/MyCyb3r/mynmap
 - **Proxychains Support**: Allows scans through proxies to conceal the origin.
 
 ## How to Use
+0. **Access your home directory**:
+   ```bash
+   cd ~
+   ```
 
 1. **Clone the repository**:
    ```bash
