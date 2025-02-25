@@ -46,7 +46,8 @@ echo "Checking for batcat..."
 if ! command -v batcat &>/dev/null; then
   if command -v bat &>/dev/null; then
     echo "Creating symlink for batcat..."
-    sudo ln -s $(which bat) /usr/local/bin/batcat
+    # Foi alterado o caminho para /usr/bin, pois no caminho anterior (/usr/local/bin), ao rodar o mynmap com sudo (ou sem ele), o sistema solicitava a senha constantemente.
+    sudo ln -s $(which bat) /usr/bin/batcat
   else
     echo "batcat or bat not found. Please check the installation."
     exit 1
