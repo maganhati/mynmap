@@ -53,6 +53,7 @@ cargo install --locked bat > /dev/null 2>&1
 echo "done!"
 
 echo "### Copying bat binary to bin directory..."
+# O usuário ao rodar o script de instalação utilizando o sudo, o binário do Bat fica automaticamente em ${USER_HOME}/.cargo/bin/bat, sendo copiado em seguida para /usr/local/bin, que está no PATH.
 USER_HOME=$(eval echo ~${SUDO_USER})
 sudo cp ${USER_HOME}/.cargo/bin/bat /usr/local/bin/batcat
 echo "done!"
