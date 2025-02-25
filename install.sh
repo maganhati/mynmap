@@ -22,36 +22,40 @@ ANY KIND OF RESPONSIBILITY FOR ANY IMPROPE USE OF THIS TOOL USE IT WITH GOOD SEN
 echo "Starting installation of dependencies..."
 
 # Atualiza a lista de pacotes
-echo "Updating package list..."
-sudo apt update
+echo "### Updating package list..."
+sudo dnf update -y
+echo "done!"
 
 # Instala o nmap
-echo "Installing nmap..."
-sudo apt install -y nmap
+echo "### Installing nmap..."
+sudo dnf install nmap -y
+echo "done!"
 
 # Instala o tor
-echo "Installing tor..."
-sudo apt install -y tor
+echo "### Installing tor..."
+sudo dnf -y install epel-release && sudo dnf -y update
+sudo dnf install tor -y
+echo "done!"
 
 # Instala o proxychains
-echo "Installing proxychains..."
-sudo apt install -y proxychains
+echo "### Installing proxychains..."
+sudo yum makecache --refresh
+sudo dnf install proxychains-ng -y
+echo "done!"
 
 # Instala o bat (batcat em algumas distribuições)
-echo "Installing bat..."
-sudo apt install -y bat
+echo "### Installing bat dependencies..."
+sudo dnf install cargo
+echo "done!"
 
-# Verifica se o batcat está disponível e cria um link simbólico se necessário
-echo "Checking for batcat..."
-if ! command -v batcat &>/dev/null; then
-  if command -v bat &>/dev/null; then
-    echo "Creating symlink for batcat..."
-    sudo ln -s $(which bat) /usr/local/bin/batcat
-  else
-    echo "batcat or bat not found. Please check the installation."
-    exit 1
-  fi
-fi
+echo "### Installing bat..."
+cargo install --locked bat > /dev/null 2>&1
+echo "done!"
+
+echo "### Copying bat binary to bin directory..."
+USER_HOME=$(eval echo ~${SUDO_USER})
+sudo cp ${USER_HOME}/.cargo/bin/bat /usr/local/bin/batcat
+echo "done!"
 
 # Adiciona o link simbólico para o script mynmap no PATH
 echo "Linking mynmap to /usr/local/bin..."
