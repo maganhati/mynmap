@@ -59,8 +59,9 @@ sudo cp ${USER_HOME}/.cargo/bin/bat /usr/local/bin/batcat
 echo "done!"
 
 # Adiciona o link simbólico para o script mynmap no PATH
-echo "Linking mynmap to /usr/local/bin..."
-sudo ln -s $(pwd)/mynmap /usr/local/bin/mynmap
+echo "Linking mynmap to /usr/bin..."
+# Alterado o caminho do binário para /usr/bin/, pois com caminho anterior (/usr/local/bin/) e o usuário executando com o comando sudo (ou sem ele), o sistema solicitava a senha constantemente.
+sudo ln -s $(pwd)/mynmap /usr/bin/mynmap
 
 echo "All dependencies have been installed successfully."
 
