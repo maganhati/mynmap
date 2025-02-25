@@ -1,8 +1,8 @@
 # mynmap
 
-Fork do projeto MyNmap criado pelo Diego Becker, agora para funcionar em distribuições Linux baseadas em Red Hat.
+Fork of the MyNmap project created by Diego Becker, now to work on Red Hat-based Linux distributions.
 
-Veja mais detalhes do projeto neste link:
+See more details about the project at this link:
 https://github.com/MyCyb3r/mynmap
 
 ![mynmap](https://github.com/user-attachments/assets/bc64788d-c370-4018-a7a0-4a9b8c2f2429)
